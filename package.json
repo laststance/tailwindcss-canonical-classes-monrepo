@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-suggestCanonicalClasses-formatter",
+  "name": "tailwind-suggest-canonical-classes-formatter",
   "version": "0.1.0",
   "description": "CLI to apply Tailwind CSS suggestCanonicalClasses fixes",
   "type": "module",

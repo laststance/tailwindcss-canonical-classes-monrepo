@@ -1,0 +1,38 @@
+{
+  "name": "prettier-plugin-tailwind-canonical",
+  "version": "0.1.0",
+  "description": "Prettier plugin to canonicalize Tailwind CSS classes",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "prettier",
+    "plugin",
+    "tailwindcss",
+    "canonical",
+    "formatter"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@tailwind-canonical/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "prettier": "^3.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.8.3"
+  }
+}

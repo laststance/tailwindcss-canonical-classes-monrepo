@@ -1,0 +1,31 @@
+{
+  "name": "@tailwind-canonical/core",
+  "version": "0.1.0",
+  "description": "Core logic for Tailwind CSS canonical class transformation",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/language-service": "0.14.29",
+    "jiti": "^2.6.0",
+    "vscode-languageserver-textdocument": "1.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "license": "MIT"
+}

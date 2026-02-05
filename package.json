@@ -1,39 +1,24 @@
 {
-  "name": "tailwind-suggest-canonical-classes-formatter",
+  "name": "tailwind-canonical-monorepo",
   "version": "0.1.0",
-  "description": "CLI to apply Tailwind CSS suggestCanonicalClasses fixes",
+  "private": true,
+  "description": "Monorepo for Tailwind CSS canonical class tools",
   "type": "module",
-  "bin": {
-    "tailwind-suggest-canonical": "bin/tailwind-suggest-canonical.js"
-  },
-  "main": "dist/cli.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "clean": "rm -rf dist",
-    "dev": "node --enable-source-maps dist/cli.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r exec rm -rf dist"
   },
   "keywords": [
     "tailwindcss",
-    "lint",
-    "formatter",
-    "cli",
-    "suggestCanonicalClasses"
+    "prettier",
+    "plugin",
+    "canonical"
   ],
-  "author": "",
   "license": "MIT",
   "packageManager": "pnpm@10.28.2",
-  "dependencies": {
-    "@tailwindcss/language-service": "0.14.29",
-    "jiti": "^2.6.0",
-    "minimist": "^1.2.8",
-    "tailwindcss": "^4.1.18",
-    "tinyglobby": "^0.2.12",
-    "vscode-languageserver-textdocument": "1.0.12"
-  },
   "devDependencies": {
-    "@types/minimist": "^1.2.5",
-    "@types/node": "^20.17.0",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.8.3"
   }
 }

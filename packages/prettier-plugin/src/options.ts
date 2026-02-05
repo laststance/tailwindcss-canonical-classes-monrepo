@@ -4,15 +4,15 @@ import type { SupportOption } from 'prettier'
  * Prettier options for the Tailwind canonical plugin.
  */
 export const options: Record<string, SupportOption> = {
-  tailwindCanonicalStylesheet: {
+  tailwindcssCanonicalStylesheet: {
     type: 'string',
-    category: 'Tailwind Canonical',
+    category: 'TailwindCSS Canonical',
     default: undefined,
     description: 'Path to Tailwind CSS v4 entry stylesheet (relative to project root)',
   },
-  tailwindCanonicalRootFontSize: {
+  tailwindcssCanonicalRootFontSize: {
     type: 'int',
-    category: 'Tailwind Canonical',
+    category: 'TailwindCSS Canonical',
     default: 16,
     description: 'Root font size in pixels for rem-based canonicalization',
   },
@@ -22,6 +22,6 @@ export const options: Record<string, SupportOption> = {
  * Plugin options interface for type safety.
  */
 export interface PluginOptions {
-  tailwindCanonicalStylesheet?: string
-  tailwindCanonicalRootFontSize?: number
+  tailwindcssCanonicalStylesheet?: string
+  tailwindcssCanonicalRootFontSize?: number
 }

@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@tailwind-canonical/core": "workspace:*",
+    "@tailwindcss-canonical/core": "workspace:*",
     "minimist": "^1.2.8",
     "tinyglobby": "^0.2.12"
   },

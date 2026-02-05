@@ -1,5 +1,5 @@
 {
-  "name": "@tailwind-canonical/core",
+  "name": "@tailwindcss-canonical/core",
   "version": "0.1.0",
   "description": "Core logic for Tailwind CSS canonical class transformation",
   "type": "module",

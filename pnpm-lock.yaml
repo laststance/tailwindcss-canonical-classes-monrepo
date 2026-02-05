@@ -45,7 +45,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@tailwind-canonical/core':
+      '@tailwindcss-canonical/core':
         specifier: workspace:*
         version: link:../core
       minimist:
@@ -92,7 +92,7 @@ importers:
 
   packages/prettier-plugin:
     dependencies:
-      '@tailwind-canonical/core':
+      '@tailwindcss-canonical/core':
         specifier: workspace:*
         version: link:../core
       tailwindcss:
@@ -166,12 +166,12 @@ importers:
       prettier:
         specifier: ^3.4.2
         version: 3.8.1
-      prettier-plugin-tailwind-canonical:
-        specifier: workspace:*
-        version: link:../packages/prettier-plugin
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
         version: 0.7.2(prettier@3.8.1)
+      prettier-plugin-tailwindcss-canonical:
+        specifier: workspace:*
+        version: link:../packages/prettier-plugin
       tailwindcss:
         specifier: ^4
         version: 4.1.18

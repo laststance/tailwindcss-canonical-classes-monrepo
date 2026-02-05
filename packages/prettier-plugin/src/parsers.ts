@@ -4,7 +4,7 @@ import {
   getDesignSystem,
   canonicalizeDocument,
   inferLanguageId,
-} from '@tailwind-canonical/core'
+} from '@tailwindcss-canonical/core'
 import type { PluginOptions } from './options.js'
 
 /**
@@ -67,18 +67,18 @@ export function createPreprocessor(parserName: string): PreprocessFn {
       // Load design system (cached)
       const designSystem = await getDesignSystem(
         projectRoot,
-        options.tailwindCanonicalStylesheet ?? null,
+        options.tailwindcssCanonicalStylesheet ?? null,
       )
 
       // Canonicalize the document
       return await canonicalizeDocument(text, filePath, designSystem, projectRoot, {
-        rootFontSize: options.tailwindCanonicalRootFontSize ?? 16,
+        rootFontSize: options.tailwindcssCanonicalRootFontSize ?? 16,
       })
     } catch (error) {
       // Fail gracefully - return original text if canonicalization fails
       // This prevents Prettier from breaking when Tailwind isn't properly configured
       if (process.env.DEBUG) {
-        console.warn('[prettier-plugin-tailwind-canonical]', error)
+        console.warn('[prettier-plugin-tailwindcss-canonical]', error)
       }
       return text
     }

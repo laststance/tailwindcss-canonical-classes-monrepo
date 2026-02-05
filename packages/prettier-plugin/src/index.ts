@@ -5,7 +5,7 @@ import {
   getDesignSystem,
   canonicalizeDocument,
   inferLanguageId,
-} from '@tailwind-canonical/core'
+} from '@tailwindcss-canonical/core'
 
 /**
  * Prettier plugin for canonicalizing Tailwind CSS classes.
@@ -16,8 +16,8 @@ import {
  * @example .prettierrc
  * ```json
  * {
- *   "plugins": ["prettier-plugin-tailwind-canonical"],
- *   "tailwindCanonicalStylesheet": "./app/globals.css"
+ *   "plugins": ["prettier-plugin-tailwindcss-canonical"],
+ *   "tailwindcssCanonicalStylesheet": "./app/globals.css"
  * }
  * ```
  */
@@ -63,15 +63,15 @@ function createPreprocess(parserName: string) {
       const projectRoot = process.cwd()
       const designSystem = await getDesignSystem(
         projectRoot,
-        opts.tailwindCanonicalStylesheet ?? null,
+        opts.tailwindcssCanonicalStylesheet ?? null,
       )
 
       return await canonicalizeDocument(text, filePath, designSystem, projectRoot, {
-        rootFontSize: opts.tailwindCanonicalRootFontSize ?? 16,
+        rootFontSize: opts.tailwindcssCanonicalRootFontSize ?? 16,
       })
     } catch (error) {
       if (process.env.DEBUG) {
-        console.warn('[prettier-plugin-tailwind-canonical]', error)
+        console.warn('[prettier-plugin-tailwindcss-canonical]', error)
       }
       return text
     }
@@ -124,7 +124,7 @@ async function loadBaseParser(parserName: string): Promise<Parser | null> {
     }
   } catch (err) {
     if (process.env.DEBUG) {
-      console.warn(`[prettier-plugin-tailwind-canonical] Failed to load ${config.module}:`, err)
+      console.warn(`[prettier-plugin-tailwindcss-canonical] Failed to load ${config.module}:`, err)
     }
   }
 
@@ -166,7 +166,7 @@ for (const parserName of Object.keys(PARSER_CONFIG)) {
       const baseParser = await loadBaseParser(parserName)
       if (!baseParser) {
         throw new Error(
-          `[prettier-plugin-tailwind-canonical] Base parser "${parserName}" not available. ` +
+          `[prettier-plugin-tailwindcss-canonical] Base parser "${parserName}" not available. ` +
             `Make sure Prettier is properly installed.`,
         )
       }

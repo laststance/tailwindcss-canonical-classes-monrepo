@@ -1,5 +1,5 @@
 {
-  "name": "prettier-plugin-tailwind-canonical",
+  "name": "prettier-plugin-tailwindcss-canonical",
   "version": "0.1.0",
   "description": "Prettier plugin to canonicalize Tailwind CSS classes",
   "type": "module",
@@ -24,7 +24,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@tailwind-canonical/core": "workspace:*"
+    "@tailwindcss-canonical/core": "workspace:*"
   },
   "peerDependencies": {
     "prettier": "^3.0.0",

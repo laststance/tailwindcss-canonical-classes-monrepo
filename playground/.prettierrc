@@ -1,9 +1,9 @@
 {
   "plugins": [
-    "prettier-plugin-tailwind-canonical",
+    "prettier-plugin-tailwindcss-canonical",
     "prettier-plugin-tailwindcss"
   ],
-  "tailwindCanonicalStylesheet": "./app/globals.css",
+  "tailwindcssCanonicalStylesheet": "./app/globals.css",
   "semi": false,
   "singleQuote": true
 }

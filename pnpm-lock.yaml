@@ -45,7 +45,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@tailwindcss-canonical/core':
+      '@laststance/tailwindcss-canonical-core':
         specifier: workspace:*
         version: link:../core
       minimist:
@@ -92,7 +92,7 @@ importers:
 
   packages/prettier-plugin:
     dependencies:
-      '@tailwindcss-canonical/core':
+      '@laststance/tailwindcss-canonical-core':
         specifier: workspace:*
         version: link:../core
       tailwindcss:

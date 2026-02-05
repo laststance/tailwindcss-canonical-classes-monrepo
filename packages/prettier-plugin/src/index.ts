@@ -5,7 +5,7 @@ import {
   getDesignSystem,
   canonicalizeDocument,
   inferLanguageId,
-} from '@tailwindcss-canonical/core'
+} from '@laststance/tailwindcss-canonical-core'
 
 /**
  * Prettier plugin for canonicalizing Tailwind CSS classes.

@@ -4,7 +4,7 @@ import {
   getDesignSystem,
   canonicalizeDocument,
   inferLanguageId,
-} from '@tailwindcss-canonical/core'
+} from '@laststance/tailwindcss-canonical-core'
 import type { PluginOptions } from './options.js'
 
 /**

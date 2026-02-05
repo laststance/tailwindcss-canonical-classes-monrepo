@@ -7,7 +7,7 @@ import {
   getDesignSystem,
   canonicalizeDocument,
   isSupportedExtension,
-} from '@tailwindcss-canonical/core'
+} from '@laststance/tailwindcss-canonical-core'
 
 const CLI_NAME = 'tailwind-suggest-canonical'
 const EXIT_SUCCESS = 0

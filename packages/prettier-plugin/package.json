@@ -43,7 +43,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@tailwindcss-canonical/core": "workspace:*"
+    "@laststance/tailwindcss-canonical-core": "workspace:*"
   },
   "peerDependencies": {
     "prettier": "^3.0.0",

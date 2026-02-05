@@ -1,5 +1,8 @@
 {
-  "plugins": ["prettier-plugin-tailwind-canonical"],
+  "plugins": [
+    "prettier-plugin-tailwind-canonical",
+    "prettier-plugin-tailwindcss"
+  ],
   "tailwindCanonicalStylesheet": "./app/globals.css",
   "semi": false,
   "singleQuote": true

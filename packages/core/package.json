@@ -30,12 +30,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laststance/tailwind-suggest-canonical-classes-formatter.git",
+    "url": "git+https://github.com/laststance/tailwindcss-canonical-classes-monrepo.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/tree/main/packages/core#readme",
+  "homepage": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/tree/main/packages/core#readme",
   "bugs": {
-    "url": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/issues"
+    "url": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/issues"
   },
   "engines": {
     "node": ">=18"

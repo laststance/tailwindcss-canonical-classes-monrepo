@@ -32,12 +32,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laststance/tailwind-suggest-canonical-classes-formatter.git",
+    "url": "git+https://github.com/laststance/tailwindcss-canonical-classes-monrepo.git",
     "directory": "packages/prettier-plugin"
   },
-  "homepage": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/tree/main/packages/prettier-plugin#readme",
+  "homepage": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/tree/main/packages/prettier-plugin#readme",
   "bugs": {
-    "url": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/issues"
+    "url": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/issues"
   },
   "engines": {
     "node": ">=18"

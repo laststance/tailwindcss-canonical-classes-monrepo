@@ -11,9 +11,37 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "tailwindcss",
+    "tailwind",
+    "canonical",
+    "suggest-canonical-classes",
+    "css"
+  ],
+  "author": "Laststance.io",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laststance/tailwind-suggest-canonical-classes-formatter.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@tailwindcss/language-service": "0.14.29",
@@ -26,6 +54,5 @@
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0"
-  },
-  "license": "MIT"
+  }
 }

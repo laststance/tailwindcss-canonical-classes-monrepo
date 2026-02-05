@@ -11,6 +11,10 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -19,10 +23,25 @@
     "prettier",
     "plugin",
     "tailwindcss",
+    "tailwind",
     "canonical",
-    "formatter"
+    "formatter",
+    "suggest-canonical-classes"
   ],
+  "author": "Laststance.io",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laststance/tailwind-suggest-canonical-classes-formatter.git",
+    "directory": "packages/prettier-plugin"
+  },
+  "homepage": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/tree/main/packages/prettier-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/laststance/tailwind-suggest-canonical-classes-formatter/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@tailwindcss-canonical/core": "workspace:*"
   },

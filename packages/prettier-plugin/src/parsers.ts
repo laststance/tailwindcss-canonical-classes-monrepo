@@ -78,7 +78,7 @@ export function createPreprocessor(parserName: string): PreprocessFn {
       // Fail gracefully - return original text if canonicalization fails
       // This prevents Prettier from breaking when Tailwind isn't properly configured
       if (process.env.DEBUG) {
-        console.warn('[prettier-plugin-tailwindcss-canonical]', error)
+        console.warn('[prettier-plugin-tailwindcss-canonical-classes]', error)
       }
       return text
     }

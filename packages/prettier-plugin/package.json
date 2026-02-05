@@ -1,5 +1,5 @@
 {
-  "name": "prettier-plugin-tailwindcss-canonical",
+  "name": "prettier-plugin-tailwindcss-canonical-classes",
   "version": "0.1.0",
   "description": "Prettier plugin to canonicalize Tailwind CSS classes",
   "type": "module",

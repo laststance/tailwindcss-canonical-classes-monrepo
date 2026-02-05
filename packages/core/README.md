@@ -1,6 +1,6 @@
 # @laststance/tailwindcss-canonical-core
 
-Core logic for transforming non-canonical Tailwind CSS v4 classes into their canonical equivalents. This package powers [`prettier-plugin-tailwindcss-canonical`](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical) and the `tailwind-suggest-canonical-classes` CLI.
+Core logic for transforming non-canonical Tailwind CSS v4 classes into their canonical equivalents. This package powers [`prettier-plugin-tailwindcss-canonical-classes`](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical-classes) and the `tailwind-suggest-canonical-classes` CLI.
 
 ## Installation
 

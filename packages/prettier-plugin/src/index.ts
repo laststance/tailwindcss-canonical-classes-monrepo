@@ -16,7 +16,7 @@ import {
  * @example .prettierrc
  * ```json
  * {
- *   "plugins": ["prettier-plugin-tailwindcss-canonical"],
+ *   "plugins": ["prettier-plugin-tailwindcss-canonical-classes"],
  *   "tailwindcssCanonicalStylesheet": "./app/globals.css"
  * }
  * ```
@@ -71,7 +71,7 @@ function createPreprocess(parserName: string) {
       })
     } catch (error) {
       if (process.env.DEBUG) {
-        console.warn('[prettier-plugin-tailwindcss-canonical]', error)
+        console.warn('[prettier-plugin-tailwindcss-canonical-classes]', error)
       }
       return text
     }
@@ -124,7 +124,7 @@ async function loadBaseParser(parserName: string): Promise<Parser | null> {
     }
   } catch (err) {
     if (process.env.DEBUG) {
-      console.warn(`[prettier-plugin-tailwindcss-canonical] Failed to load ${config.module}:`, err)
+      console.warn(`[prettier-plugin-tailwindcss-canonical-classes] Failed to load ${config.module}:`, err)
     }
   }
 
@@ -166,7 +166,7 @@ for (const parserName of Object.keys(PARSER_CONFIG)) {
       const baseParser = await loadBaseParser(parserName)
       if (!baseParser) {
         throw new Error(
-          `[prettier-plugin-tailwindcss-canonical] Base parser "${parserName}" not available. ` +
+          `[prettier-plugin-tailwindcss-canonical-classes] Base parser "${parserName}" not available. ` +
             `Make sure Prettier is properly installed.`,
         )
       }

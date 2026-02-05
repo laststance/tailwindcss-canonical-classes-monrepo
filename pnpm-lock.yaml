@@ -169,7 +169,7 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
         version: 0.7.2(prettier@3.8.1)
-      prettier-plugin-tailwindcss-canonical:
+      prettier-plugin-tailwindcss-canonical-classes:
         specifier: workspace:*
         version: link:../packages/prettier-plugin
       tailwindcss:

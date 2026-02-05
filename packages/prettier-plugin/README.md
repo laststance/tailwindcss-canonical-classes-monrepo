@@ -1,4 +1,4 @@
-# prettier-plugin-tailwindcss-canonical
+# prettier-plugin-tailwindcss-canonical-classes
 
 A Prettier plugin that automatically converts non-canonical Tailwind CSS v4 classes to their canonical equivalents.
 
@@ -7,7 +7,7 @@ For example, `mt-[16px]` becomes `mt-4`, `text-[red]` becomes `text-red`, and ot
 ## Installation
 
 ```sh
-npm install -D prettier-plugin-tailwindcss-canonical prettier tailwindcss
+npm install -D prettier-plugin-tailwindcss-canonical-classes prettier tailwindcss
 ```
 
 ## Configuration
@@ -16,18 +16,18 @@ Add the plugin to your `.prettierrc`:
 
 ```json
 {
-  "plugins": ["prettier-plugin-tailwindcss-canonical"]
+  "plugins": ["prettier-plugin-tailwindcss-canonical-classes"]
 }
 ```
 
 ### With prettier-plugin-tailwindcss (class sorting)
 
-This plugin works alongside the official Tailwind CSS Prettier plugin. List `prettier-plugin-tailwindcss-canonical` **first** so classes are canonicalized before sorting:
+This plugin works alongside the official Tailwind CSS Prettier plugin. List `prettier-plugin-tailwindcss-canonical-classes` **first** so classes are canonicalized before sorting:
 
 ```json
 {
   "plugins": [
-    "prettier-plugin-tailwindcss-canonical",
+    "prettier-plugin-tailwindcss-canonical-classes",
     "prettier-plugin-tailwindcss"
   ]
 }
@@ -44,7 +44,7 @@ This plugin works alongside the official Tailwind CSS Prettier plugin. List `pre
 
 ```json
 {
-  "plugins": ["prettier-plugin-tailwindcss-canonical"],
+  "plugins": ["prettier-plugin-tailwindcss-canonical-classes"],
   "tailwindcssCanonicalStylesheet": "./app/globals.css",
   "tailwindcssCanonicalRootFontSize": 16
 }

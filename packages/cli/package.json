@@ -1,7 +1,7 @@
 {
   "name": "tailwind-suggest-canonical-classes",
   "version": "0.1.0",
-  "description": "CLI to apply Tailwind CSS suggestCanonicalClasses fixes",
+  "description": "CLI to apply Tailwind CSS suggest_canonical_classes fixes",
   "type": "module",
   "bin": {
     "tailwind-suggest-canonical": "bin/tailwind-suggest-canonical.js"
@@ -16,7 +16,7 @@
     "lint",
     "formatter",
     "cli",
-    "suggestCanonicalClasses"
+    "suggest-canonical-classes"
   ],
   "license": "MIT",
   "dependencies": {

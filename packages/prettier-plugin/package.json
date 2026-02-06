@@ -1,16 +1,11 @@
 {
   "name": "prettier-plugin-tailwindcss-canonical-classes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Prettier plugin to canonicalize Tailwind CSS classes",
   "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "files": [
     "dist",
     "README.md"

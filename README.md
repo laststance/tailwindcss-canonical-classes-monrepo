@@ -19,7 +19,7 @@ Tailwind CSS v4 introduced a design-system-aware class syntax. When you write ar
 |---------|-----|-------------|
 | [`@laststance/tailwindcss-canonical-core`](packages/core/) | [![npm](https://img.shields.io/npm/v/@laststance/tailwindcss-canonical-core?color=blue)](https://www.npmjs.com/package/@laststance/tailwindcss-canonical-core) | Core transformation logic |
 | [`prettier-plugin-tailwindcss-canonical-classes`](packages/prettier-plugin/) | [![npm](https://img.shields.io/npm/v/prettier-plugin-tailwindcss-canonical-classes?color=blue)](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical-classes) | Prettier plugin for auto-formatting |
-| [`tailwind-suggest-canonical-classes`](packages/cli/) | [![npm](https://img.shields.io/npm/v/tailwind-suggest-canonical-classes?color=blue)](https://www.npmjs.com/package/tailwind-suggest-canonical-classes) | CLI for checking & fixing files |
+| [`@laststance/tailwind-suggest-canonical-classes`](packages/cli/) | [![npm](https://img.shields.io/npm/v/@laststance/tailwind-suggest-canonical-classes?color=blue)](https://www.npmjs.com/package/@laststance/tailwind-suggest-canonical-classes) | CLI for checking & fixing files |
 
 ## Quick Start
 
@@ -74,19 +74,19 @@ This plugin works alongside the official Tailwind CSS Prettier plugin. List the 
 Check files without modifying them (great for CI):
 
 ```bash
-npx tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --check
+npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --check
 ```
 
 Fix files in place:
 
 ```bash
-npx tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}"
+npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}"
 ```
 
 #### CLI Options
 
 ```
-tailwind-suggest-canonical <files/globs> [options]
+tailwind-suggest-canonical-classes <files/globs> [options]
 
 Options:
   --root <dir>             Project root directory (default: cwd)
@@ -165,7 +165,7 @@ packages/
 │       ├── design-system.ts   # Tailwind v4 design system loader
 │       ├── types.ts           # Shared types
 │       └── index.ts           # Public API
-├── cli/               # tailwind-suggest-canonical-classes
+├── cli/               # @laststance/tailwind-suggest-canonical-classes
 │   ├── bin/           # CLI entry point
 │   └── src/
 │       └── cli.ts     # Argument parsing, file processing, reporting

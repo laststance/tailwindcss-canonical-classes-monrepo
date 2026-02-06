@@ -1,24 +1,48 @@
 {
-  "name": "tailwind-suggest-canonical-classes",
+  "name": "@laststance/tailwind-suggest-canonical-classes",
   "version": "0.1.0",
-  "description": "CLI to apply Tailwind CSS suggest_canonical_classes fixes",
+  "description": "CLI that converts non-canonical Tailwind CSS v4 classes to their canonical equivalents",
   "type": "module",
   "bin": {
-    "tailwind-suggest-canonical": "bin/tailwind-suggest-canonical.js"
+    "tailwind-suggest-canonical-classes": "bin/tailwind-suggest-canonical.js"
   },
   "main": "dist/cli.js",
+  "files": [
+    "bin",
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "keywords": [
     "tailwindcss",
+    "tailwind",
+    "canonical",
+    "suggest-canonical-classes",
     "lint",
     "formatter",
     "cli",
-    "suggest-canonical-classes"
+    "codemod"
   ],
+  "author": "Laststance.io",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laststance/tailwindcss-canonical-classes-monrepo.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/tree/main/packages/cli#readme",
+  "bugs": {
+    "url": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@laststance/tailwindcss-canonical-core": "workspace:*",
     "minimist": "^1.2.8",

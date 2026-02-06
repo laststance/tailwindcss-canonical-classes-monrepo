@@ -9,7 +9,7 @@ import {
   isSupportedExtension,
 } from '@laststance/tailwindcss-canonical-core'
 
-const CLI_NAME = 'tailwind-suggest-canonical'
+const CLI_NAME = 'tailwind-suggest-canonical-classes'
 const EXIT_SUCCESS = 0
 const EXIT_FAILURE = 1
 

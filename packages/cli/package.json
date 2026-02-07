@@ -1,6 +1,6 @@
 {
   "name": "@laststance/tailwind-suggest-canonical-classes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI that converts non-canonical Tailwind CSS v4 classes to their canonical equivalents",
   "type": "module",
   "bin": {
@@ -44,7 +44,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@laststance/tailwindcss-canonical-core": "workspace:*",
+    "@laststance/tailwindcss-canonical-classes-core": "workspace:*",
     "minimist": "^1.2.8",
     "tinyglobby": "^0.2.12"
   },

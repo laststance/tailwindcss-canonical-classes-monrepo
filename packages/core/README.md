@@ -1,11 +1,11 @@
-# @laststance/tailwindcss-canonical-core
+# @laststance/tailwindcss-canonical-classes-core
 
 Core logic for transforming non-canonical Tailwind CSS v4 classes into their canonical equivalents. This package powers [`prettier-plugin-tailwindcss-canonical-classes`](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical-classes) and the [`@laststance/tailwind-suggest-canonical-classes`](https://www.npmjs.com/package/@laststance/tailwind-suggest-canonical-classes) CLI.
 
 ## Installation
 
 ```sh
-npm install @laststance/tailwindcss-canonical-core tailwindcss
+npm install @laststance/tailwindcss-canonical-classes-core tailwindcss
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ npm install @laststance/tailwindcss-canonical-core tailwindcss
 import {
   getDesignSystem,
   canonicalizeDocument,
-} from '@laststance/tailwindcss-canonical-core'
+} from '@laststance/tailwindcss-canonical-classes-core'
 
 // Load the Tailwind v4 design system
 const designSystem = await getDesignSystem(process.cwd(), './app/globals.css')

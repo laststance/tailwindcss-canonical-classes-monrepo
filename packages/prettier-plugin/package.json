@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-tailwindcss-canonical-classes",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Prettier plugin to canonicalize Tailwind CSS classes",
   "type": "module",
   "main": "dist/index.js",
@@ -38,7 +38,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@laststance/tailwindcss-canonical-core": "workspace:*"
+    "@laststance/tailwindcss-canonical-classes-core": "workspace:*"
   },
   "peerDependencies": {
     "prettier": "^3.0.0",

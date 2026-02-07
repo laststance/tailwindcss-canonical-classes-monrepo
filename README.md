@@ -17,7 +17,7 @@ Tailwind CSS v4 introduced a design-system-aware class syntax. When you write ar
 
 | Package | npm | Description |
 |---------|-----|-------------|
-| [`@laststance/tailwindcss-canonical-core`](packages/core/) | [![npm](https://img.shields.io/npm/v/@laststance/tailwindcss-canonical-core?color=blue)](https://www.npmjs.com/package/@laststance/tailwindcss-canonical-core) | Core transformation logic |
+| [`@laststance/tailwindcss-canonical-classes-core`](packages/core/) | [![npm](https://img.shields.io/npm/v/@laststance/tailwindcss-canonical-classes-core?color=blue)](https://www.npmjs.com/package/@laststance/tailwindcss-canonical-classes-core) | Core transformation logic |
 | [`prettier-plugin-tailwindcss-canonical-classes`](packages/prettier-plugin/) | [![npm](https://img.shields.io/npm/v/prettier-plugin-tailwindcss-canonical-classes?color=blue)](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical-classes) | Prettier plugin for auto-formatting |
 | [`@laststance/tailwind-suggest-canonical-classes`](packages/cli/) | [![npm](https://img.shields.io/npm/v/@laststance/tailwind-suggest-canonical-classes?color=blue)](https://www.npmjs.com/package/@laststance/tailwind-suggest-canonical-classes) | CLI for checking & fixing files |
 
@@ -110,14 +110,14 @@ Options:
 For building custom integrations:
 
 ```bash
-npm install @laststance/tailwindcss-canonical-core tailwindcss
+npm install @laststance/tailwindcss-canonical-classes-core tailwindcss
 ```
 
 ```typescript
 import {
   getDesignSystem,
   canonicalizeDocument,
-} from '@laststance/tailwindcss-canonical-core'
+} from '@laststance/tailwindcss-canonical-classes-core'
 
 const designSystem = await getDesignSystem(process.cwd(), './app/globals.css')
 
@@ -159,7 +159,7 @@ Canonical mappings are **not hardcoded** — they come directly from your Tailwi
 
 ```
 packages/
-├── core/              # @laststance/tailwindcss-canonical-core
+├── core/              # @laststance/tailwindcss-canonical-classes-core
 │   └── src/
 │       ├── canonicalizer.ts   # Transformation pipeline
 │       ├── design-system.ts   # Tailwind v4 design system loader

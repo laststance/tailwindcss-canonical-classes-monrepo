@@ -69,7 +69,7 @@ tailwind-suggest-canonical-classes "src/**/*.tsx" --root-font-size 14
 ## Related
 
 - [`prettier-plugin-tailwindcss-canonical-classes`](https://www.npmjs.com/package/prettier-plugin-tailwindcss-canonical-classes) - Prettier plugin for automatic canonicalization on format
-- [`@laststance/tailwindcss-canonical-core`](https://www.npmjs.com/package/@laststance/tailwindcss-canonical-core) - Core transformation logic
+- [`@laststance/tailwindcss-canonical-classes-core`](https://www.npmjs.com/package/@laststance/tailwindcss-canonical-classes-core) - Core transformation logic
 
 ## License
 

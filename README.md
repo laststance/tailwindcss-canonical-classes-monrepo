@@ -43,13 +43,13 @@ That's it. Run `prettier --write .` and non-canonical classes are rewritten.
 
 #### With prettier-plugin-tailwindcss (class sorting)
 
-This plugin works alongside the official Tailwind CSS Prettier plugin. List the canonical plugin **first** so classes are canonicalized before sorting:
+This plugin works alongside the official Tailwind CSS Prettier plugin. List the canonical plugin **last** so it can chain with the sorting plugin's preprocess:
 
 ```json
 {
   "plugins": [
-    "prettier-plugin-tailwindcss-canonical-classes",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-tailwindcss-canonical-classes"
   ]
 }
 ```

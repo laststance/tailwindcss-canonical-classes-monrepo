@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Playground
 
-## Getting Started
+Next.js 16 + shadcn/ui test app for verifying CLI and Prettier plugin behavior.
 
-First, run the development server:
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd playground
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev            # Start dev server (http://localhost:3000)
+pnpm build          # Production build
+pnpm format         # Run Prettier (canonical + sorting)
+pnpm format:check   # Check without modifying
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Prettier Plugin Configuration
 
-## Learn More
+Both the canonical plugin and the official sorting plugin are configured in `.prettierrc`.
+The canonical plugin must be listed **last** so it can chain with the sorting plugin's preprocess:
 
-To learn more about Next.js, take a look at the following resources:
+```json
+{
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-tailwindcss-canonical-classes"
+  ],
+  "tailwindcssCanonicalStylesheet": "./app/globals.css"
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+├── globals.css          # Tailwind v4 theme (includes custom xs breakpoint)
+├── page.tsx             # Top page
+├── page/
+│   └── FeedItem.tsx     # Test file for canonical class conversion
+└── showcase/
+    ├── data-display/    # Data display components
+    ├── feedback/        # Feedback components
+    ├── forms/           # Form components
+    ├── layout-components/
+    └── navigation/      # Navigation components
+```
 
-## Deploy on Vercel
+## Testing Canonical Conversion
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Check if non-canonical classes exist
+pnpm format:check
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Apply canonical conversion + sorting
+pnpm format
+
+# Verify with CLI (verbose output)
+cd .. && node packages/cli/dist/cli.js "playground/**/*.tsx" --check --verbose --css playground/app/globals.css
+```
+
+> **Note:** Discard playground changes after testing: `git checkout playground/`

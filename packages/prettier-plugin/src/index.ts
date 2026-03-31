@@ -1,6 +1,5 @@
-import type { Plugin, Parser, ParserOptions, AstPath, Doc, Printer } from 'prettier'
+import type { Plugin, Parser, ParserOptions } from 'prettier'
 import { options, type PluginOptions } from './options.js'
-import path from 'node:path'
 import {
   getDesignSystem,
   canonicalizeDocument,
@@ -13,10 +12,17 @@ import {
  * This plugin extends Prettier's built-in parsers to add a preprocess step
  * that canonicalizes Tailwind CSS class names using the v4 language service.
  *
+ * When used with other plugins (e.g., prettier-plugin-tailwindcss for sorting),
+ * this plugin MUST be listed LAST in the plugins array so its parsers take
+ * precedence, while chaining with earlier plugins' preprocess and parse.
+ *
  * @example .prettierrc
  * ```json
  * {
- *   "plugins": ["prettier-plugin-tailwindcss-canonical-classes"],
+ *   "plugins": [
+ *     "prettier-plugin-tailwindcss",
+ *     "prettier-plugin-tailwindcss-canonical-classes"
+ *   ],
  *   "tailwindcssCanonicalStylesheet": "./app/globals.css"
  * }
  * ```
@@ -43,43 +49,7 @@ const PARSER_EXTENSION_MAP: Record<string, string> = {
   mdx: '.mdx',
 }
 
-/**
- * Create a preprocess function that canonicalizes Tailwind classes.
- */
-function createPreprocess(parserName: string) {
-  return async function preprocess(
-    text: string,
-    opts: ParserOptions & PluginOptions,
-  ): Promise<string> {
-    const filePath = opts.filepath ?? `untitled${PARSER_EXTENSION_MAP[parserName] ?? '.txt'}`
-    const languageId = inferLanguageId(filePath)
-
-    if (!languageId) {
-      return text
-    }
-
-    try {
-      // Use cwd as project root (where .prettierrc is located)
-      const projectRoot = process.cwd()
-      const designSystem = await getDesignSystem(
-        projectRoot,
-        opts.tailwindcssCanonicalStylesheet ?? null,
-      )
-
-      return await canonicalizeDocument(text, filePath, designSystem, projectRoot, {
-        rootFontSize: opts.tailwindcssCanonicalRootFontSize ?? 16,
-      })
-    } catch (error) {
-      if (process.env.DEBUG) {
-        console.warn('[prettier-plugin-tailwindcss-canonical-classes]', error)
-      }
-      return text
-    }
-  }
-}
-
-// Configuration for loading base parsers
-// Note: We use babel-ts for typescript to maintain consistency
+// Configuration for parser astFormat (used when falling back to built-in parsers)
 const PARSER_CONFIG: Record<string, { module: string; parser: string; astFormat: string }> = {
   html: { module: 'prettier/plugins/html', parser: 'html', astFormat: 'html' },
   vue: { module: 'prettier/plugins/html', parser: 'vue', astFormat: 'html' },
@@ -99,32 +69,31 @@ const PARSER_CONFIG: Record<string, { module: string; parser: string; astFormat:
   mdx: { module: 'prettier/plugins/markdown', parser: 'mdx', astFormat: 'mdast' },
 }
 
-// Cache for loaded base parsers
-const baseParserCache = new Map<string, Parser>()
+// Cache for loaded built-in parsers
+const builtinParserCache = new Map<string, Parser>()
 
 /**
- * Load a base parser from Prettier's built-in plugins.
+ * Load a built-in parser from Prettier's bundled plugins.
+ * Used as fallback when no other plugin provides a parser.
  */
-async function loadBaseParser(parserName: string): Promise<Parser | null> {
-  if (baseParserCache.has(parserName)) {
-    return baseParserCache.get(parserName)!
+async function loadBuiltinParser(parserName: string): Promise<Parser | null> {
+  if (builtinParserCache.has(parserName)) {
+    return builtinParserCache.get(parserName)!
   }
 
   const config = PARSER_CONFIG[parserName]
-  if (!config) {
-    return null
-  }
+  if (!config) return null
 
   try {
     const plugin = await import(config.module)
     const parser = plugin.parsers?.[config.parser]
     if (parser) {
-      baseParserCache.set(parserName, parser)
+      builtinParserCache.set(parserName, parser)
       return parser
     }
   } catch (err) {
     if (process.env.DEBUG) {
-      console.warn(`[prettier-plugin-tailwindcss-canonical-classes] Failed to load ${config.module}:`, err)
+      console.warn(`[canonical] Failed to load ${config.module}:`, err)
     }
   }
 
@@ -132,72 +101,113 @@ async function loadBaseParser(parserName: string): Promise<Parser | null> {
 }
 
 /**
- * Wrap a parser with our preprocess hook.
+ * Find another plugin's parser for the given parser name.
+ * Skips our own parsers to avoid infinite recursion.
+ * Handles both direct plugin objects and module-wrapped plugins.
  */
-function wrapParser(baseParser: Parser, parserName: string): Parser {
-  const ourPreprocess = createPreprocess(parserName)
+function findOtherPluginParser(
+  parserName: string,
+  plugins: any[],
+): Parser | null {
+  for (const plugin of plugins) {
+    // Handle module default exports
+    const p = plugin.default ?? plugin
+    // Skip our own plugin
+    if (p.parsers === parsers) continue
+    const parser = p.parsers?.[parserName]
+    if (parser && typeof parser.parse === 'function') return parser
+  }
+  return null
+}
 
-  return {
-    ...baseParser,
-    preprocess: async (text: string, opts: ParserOptions & PluginOptions) => {
-      // Run our canonicalization first
-      let processed = await ourPreprocess(text, opts)
-      // Then run the original preprocess if it exists
-      if (baseParser.preprocess) {
-        const result = baseParser.preprocess(processed, opts)
-        processed = result instanceof Promise ? await result : result
+/**
+ * Create the canonicalization preprocess function.
+ */
+function createCanonicalPreprocess(parserName: string) {
+  return async function canonicalPreprocess(
+    text: string,
+    opts: ParserOptions & PluginOptions,
+  ): Promise<string> {
+    const filePath = opts.filepath ?? `untitled${PARSER_EXTENSION_MAP[parserName] ?? '.txt'}`
+    const languageId = inferLanguageId(filePath)
+
+    if (!languageId) return text
+
+    try {
+      const projectRoot = process.cwd()
+      const designSystem = await getDesignSystem(
+        projectRoot,
+        opts.tailwindcssCanonicalStylesheet ?? null,
+      )
+
+      return await canonicalizeDocument(text, filePath, designSystem, projectRoot, {
+        rootFontSize: opts.tailwindcssCanonicalRootFontSize ?? 16,
+      })
+    } catch (error) {
+      if (process.env.DEBUG) {
+        console.warn('[canonical]', error)
       }
-      return processed
-    },
+      return text
+    }
   }
 }
 
-// Build parsers by extending Prettier's built-in parsers
+// Build parsers that chain with other plugins
 const parsers: Plugin['parsers'] = {}
 
-// Initialize parsers - load base parsers and wrap them with our preprocess
 for (const parserName of Object.keys(PARSER_CONFIG)) {
   const config = PARSER_CONFIG[parserName]
-  const ourPreprocess = createPreprocess(parserName)
+  const ourPreprocess = createCanonicalPreprocess(parserName)
 
-  // Create a parser that loads the base parser on first use and properly delegates
   parsers[parserName] = {
     parse: async (text: string, opts: ParserOptions) => {
-      const baseParser = await loadBaseParser(parserName)
-      if (!baseParser) {
-        throw new Error(
-          `[prettier-plugin-tailwindcss-canonical-classes] Base parser "${parserName}" not available. ` +
-            `Make sure Prettier is properly installed.`,
-        )
+      // Always use Prettier's built-in parser for AST generation.
+      // Other plugins (e.g., prettier-plugin-tailwindcss) do their work in preprocess
+      // at the text level — they don't need their parse called directly.
+      const builtinParser = await loadBuiltinParser(parserName)
+      if (builtinParser) {
+        return builtinParser.parse(text, opts)
       }
-      return baseParser.parse(text, opts)
+
+      throw new Error(
+        `[canonical] Base parser "${parserName}" not available. ` +
+          `Make sure Prettier is properly installed.`,
+      )
     },
+
     astFormat: config.astFormat,
+
     locStart: (node: any) => {
-      // Delegate to base parser's locStart if available
-      const baseParser = baseParserCache.get(parserName)
-      if (baseParser?.locStart) {
-        return baseParser.locStart(node)
-      }
-      // Fallback
+      const cached = builtinParserCache.get(parserName)
+      if (cached?.locStart) return cached.locStart(node)
       if (typeof node.start === 'number') return node.start
       if (node.loc?.start?.offset !== undefined) return node.loc.start.offset
       if (node.sourceSpan?.start?.offset !== undefined) return node.sourceSpan.start.offset
       return 0
     },
+
     locEnd: (node: any) => {
-      // Delegate to base parser's locEnd if available
-      const baseParser = baseParserCache.get(parserName)
-      if (baseParser?.locEnd) {
-        return baseParser.locEnd(node)
-      }
-      // Fallback
+      const cached = builtinParserCache.get(parserName)
+      if (cached?.locEnd) return cached.locEnd(node)
       if (typeof node.end === 'number') return node.end
       if (node.loc?.end?.offset !== undefined) return node.loc.end.offset
       if (node.sourceSpan?.end?.offset !== undefined) return node.sourceSpan.end.offset
       return 0
     },
-    preprocess: ourPreprocess,
+
+    preprocess: async (text: string, opts: ParserOptions & PluginOptions) => {
+      // 1. Run our canonicalization FIRST
+      let processed = await ourPreprocess(text, opts)
+
+      // 2. Chain with other plugins' preprocess (e.g., sorting from prettier-plugin-tailwindcss)
+      const otherParser = findOtherPluginParser(parserName, (opts as any).plugins ?? [])
+      if (otherParser?.preprocess) {
+        const result = otherParser.preprocess(processed, opts)
+        processed = result instanceof Promise ? await result : result
+      }
+
+      return processed
+    },
   }
 }
 

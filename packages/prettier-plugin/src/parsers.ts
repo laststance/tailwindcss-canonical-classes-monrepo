@@ -1,4 +1,3 @@
-import path from 'node:path'
 import type { ParserOptions } from 'prettier'
 import {
   getDesignSystem,
@@ -6,6 +5,7 @@ import {
   inferLanguageId,
 } from '@laststance/tailwindcss-canonical-classes-core'
 import type { PluginOptions } from './options.js'
+import { resolveCanonicalProjectContext } from './project-context.js'
 
 /**
  * Map parser names to file extensions for virtual files.
@@ -61,13 +61,15 @@ export function createPreprocessor(parserName: string): PreprocessFn {
     }
 
     try {
-      // Determine project root from file path
-      const projectRoot = options.filepath ? path.dirname(options.filepath) : process.cwd()
+      const { projectRoot, stylesheetPath } = await resolveCanonicalProjectContext(
+        options,
+        filePath,
+      )
 
       // Load design system (cached)
       const designSystem = await getDesignSystem(
         projectRoot,
-        options.tailwindcssCanonicalStylesheet ?? null,
+        stylesheetPath,
       )
 
       // Canonicalize the document

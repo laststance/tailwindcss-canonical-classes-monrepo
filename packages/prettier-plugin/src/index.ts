@@ -5,6 +5,7 @@ import {
   canonicalizeDocument,
   inferLanguageId,
 } from '@laststance/tailwindcss-canonical-classes-core'
+import { resolveCanonicalProjectContext } from './project-context.js'
 
 /**
  * Prettier plugin for canonicalizing Tailwind CSS classes.
@@ -134,10 +135,13 @@ function createCanonicalPreprocess(parserName: string) {
     if (!languageId) return text
 
     try {
-      const projectRoot = process.cwd()
+      const { projectRoot, stylesheetPath } = await resolveCanonicalProjectContext(
+        opts,
+        filePath,
+      )
       const designSystem = await getDesignSystem(
         projectRoot,
-        opts.tailwindcssCanonicalStylesheet ?? null,
+        stylesheetPath,
       )
 
       return await canonicalizeDocument(text, filePath, designSystem, projectRoot, {

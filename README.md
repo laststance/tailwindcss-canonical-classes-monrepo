@@ -43,11 +43,10 @@ That's it. Run `prettier --write .` and non-canonical classes are rewritten.
 
 #### With prettier-plugin-tailwindcss (class sorting)
 
-> **VS Code extension note:** When this plugin is configured together with
-> `prettier-plugin-tailwindcss`, canonicalization may not run reliably from the
-> VS Code Prettier extension. The same configuration works when Prettier is run
-> from the command line, so use the Prettier CLI or the canonical classes CLI
-> when you need deterministic canonicalization.
+> **VS Code extension note:** Relative `tailwindcssCanonicalStylesheet` paths
+> are resolved from the Prettier configuration file, matching
+> `prettier-plugin-tailwindcss`. For nested packages, keep the Prettier config
+> next to the stylesheet owner or use an absolute stylesheet path.
 
 Install both Prettier plugins:
 
@@ -96,7 +95,7 @@ npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `tailwindcssCanonicalStylesheet` | `string` | `undefined` | Path to your Tailwind CSS v4 entry stylesheet |
+| `tailwindcssCanonicalStylesheet` | `string` | `undefined` | Path to your Tailwind CSS v4 entry stylesheet, relative to the Prettier configuration file |
 | `tailwindcssCanonicalRootFontSize` | `int` | `16` | Root font size in px for `rem`-based canonicalization |
 
 ```json

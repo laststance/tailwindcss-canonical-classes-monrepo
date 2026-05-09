@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "before:init": "pnpm build"
+    "before:init": "pnpm --dir ../.. build"
   },
   "git": {
     "changelog": null,

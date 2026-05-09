@@ -16,6 +16,7 @@
   },
   "npm": {
     "skipChecks": true,
-    "publishArgs": ["--provenance"]
+    "publishPackageManager": "pnpm",
+    "publishArgs": ["--provenance", "--no-git-checks"]
   }
 }

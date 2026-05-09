@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laststance/tailwindcss-canonical-classes-monrepo.git",
+    "url": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo",
     "directory": "packages/cli"
   },
   "homepage": "https://github.com/laststance/tailwindcss-canonical-classes-monrepo/tree/main/packages/cli#readme",

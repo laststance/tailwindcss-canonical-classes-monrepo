@@ -32,5 +32,8 @@ jobs:
       - name: Prepare environment
         uses: ./.github/actions/prepare
 
-      - name: Build packages and playground
-        run: pnpm build
+      - name: Build packages
+        run: |
+          pnpm --filter @laststance/tailwindcss-canonical-classes-core build
+          pnpm --filter @laststance/tailwind-suggest-canonical-classes build
+          pnpm --filter prettier-plugin-tailwindcss-canonical-classes build

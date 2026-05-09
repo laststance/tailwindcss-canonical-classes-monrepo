@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "before:init": "pnpm --dir ../.. build"
+    "before:init": "pnpm --dir ../.. --filter @laststance/tailwindcss-canonical-classes-core build"
   },
   "git": {
     "changelog": null,

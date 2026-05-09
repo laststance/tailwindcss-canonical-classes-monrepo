@@ -22,15 +22,19 @@ Add the plugin to your `.prettierrc`:
 
 ### With prettier-plugin-tailwindcss (class sorting)
 
-> **Known issue:** When this plugin is configured together with
+> **VS Code extension note:** When this plugin is configured together with
 > `prettier-plugin-tailwindcss`, canonicalization may not run reliably from the
-> VS Code Prettier extension. Depending on your Prettier/plugin resolution, the
-> same setup may also fail when running Prettier directly from the command line.
->
-> Until this is fixed, prefer running the canonical CLI explicitly with `npx`
+> VS Code Prettier extension. The same configuration works when Prettier is run
+> from the command line, so use the Prettier CLI or the canonical classes CLI
 > when you need deterministic canonicalization.
 
-If you still want to try both Prettier plugins together, list `prettier-plugin-tailwindcss-canonical-classes` **last** so it can chain with the sorting plugin's preprocess:
+Install both Prettier plugins:
+
+```sh
+npm install -D prettier prettier-plugin-tailwindcss prettier-plugin-tailwindcss-canonical-classes tailwindcss
+```
+
+List `prettier-plugin-tailwindcss-canonical-classes` **last** so it can chain with the sorting plugin's preprocess:
 
 ```json
 {
@@ -41,7 +45,17 @@ If you still want to try both Prettier plugins together, list `prettier-plugin-t
 }
 ```
 
-To apply canonicalization on demand, run the CLI directly:
+Run Prettier from the command line:
+
+```sh
+# Check formatting without modifying files
+npx prettier --check "src/**/*.{astro,css,html,js,jsx,md,mdx,ts,tsx,vue,svelte}"
+
+# Format files in place
+npx prettier --write "src/**/*.{astro,css,html,js,jsx,md,mdx,ts,tsx,vue,svelte}"
+```
+
+To apply canonicalization without Prettier, run the CLI powered by `@laststance/tailwindcss-canonical-classes-core` directly:
 
 ```sh
 # Check files without modifying them

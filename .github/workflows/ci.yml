@@ -20,8 +20,12 @@ jobs:
       - name: Prepare environment
         uses: ./.github/actions/prepare
 
-      - name: TypeScript Check
-        run: pnpm typecheck
+      - name: TypeScript Check packages
+        run: |
+          pnpm --filter @laststance/tailwindcss-canonical-classes-core typecheck
+          pnpm --filter @laststance/tailwindcss-canonical-classes-core build
+          pnpm --filter @laststance/tailwind-suggest-canonical-classes typecheck
+          pnpm --filter prettier-plugin-tailwindcss-canonical-classes typecheck
 
   build:
     name: Build

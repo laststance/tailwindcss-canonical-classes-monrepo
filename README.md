@@ -43,7 +43,15 @@ That's it. Run `prettier --write .` and non-canonical classes are rewritten.
 
 #### With prettier-plugin-tailwindcss (class sorting)
 
-This plugin works alongside the official Tailwind CSS Prettier plugin. List the canonical plugin **last** so it can chain with the sorting plugin's preprocess:
+> **Known issue:** When this plugin is configured together with
+> `prettier-plugin-tailwindcss`, canonicalization may not run reliably from the
+> VS Code Prettier extension. Depending on your Prettier/plugin resolution, the
+> same setup may also fail when running Prettier directly from the command line.
+>
+> Until this is fixed, prefer running the canonical CLI explicitly with `npx`
+> when you need deterministic canonicalization.
+
+If you still want to try both Prettier plugins together, list the canonical plugin **last** so it can chain with the sorting plugin's preprocess:
 
 ```json
 {
@@ -52,6 +60,22 @@ This plugin works alongside the official Tailwind CSS Prettier plugin. List the 
     "prettier-plugin-tailwindcss-canonical-classes"
   ]
 }
+```
+
+To apply canonicalization on demand, run the CLI directly:
+
+```bash
+# Check files without modifying them
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --check
+
+# Fix files in place
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}"
+```
+
+If your Tailwind v4 entry stylesheet is not discoverable automatically, pass it explicitly:
+
+```bash
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --css ./app/globals.css
 ```
 
 #### Options

@@ -22,15 +22,39 @@ Add the plugin to your `.prettierrc`:
 
 ### With prettier-plugin-tailwindcss (class sorting)
 
-This plugin works alongside the official Tailwind CSS Prettier plugin. List `prettier-plugin-tailwindcss-canonical-classes` **first** so classes are canonicalized before sorting:
+> **Known issue:** When this plugin is configured together with
+> `prettier-plugin-tailwindcss`, canonicalization may not run reliably from the
+> VS Code Prettier extension. Depending on your Prettier/plugin resolution, the
+> same setup may also fail when running Prettier directly from the command line.
+>
+> Until this is fixed, prefer running the canonical CLI explicitly with `npx`
+> when you need deterministic canonicalization.
+
+If you still want to try both Prettier plugins together, list `prettier-plugin-tailwindcss-canonical-classes` **last** so it can chain with the sorting plugin's preprocess:
 
 ```json
 {
   "plugins": [
-    "prettier-plugin-tailwindcss-canonical-classes",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-tailwindcss-canonical-classes"
   ]
 }
+```
+
+To apply canonicalization on demand, run the CLI directly:
+
+```sh
+# Check files without modifying them
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --check
+
+# Fix files in place
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}"
+```
+
+If your Tailwind v4 entry stylesheet is not discoverable automatically, pass it explicitly:
+
+```sh
+npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --css ./app/globals.css
 ```
 
 ## Options

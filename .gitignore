@@ -5,3 +5,5 @@ dist/
 .env
 .env.*
 logs
+!CLAUDE.md
+!AGENTS.md

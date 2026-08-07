@@ -1,0 +1,4 @@
+{
+  "name": "tailwindcss-canonical-classes-monrepo",
+  "install": "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @laststance/tailwindcss-canonical-classes-core build && pnpm --filter @laststance/tailwind-suggest-canonical-classes build && pnpm --filter prettier-plugin-tailwindcss-canonical-classes build"
+}

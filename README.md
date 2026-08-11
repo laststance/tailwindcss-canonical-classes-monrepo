@@ -23,6 +23,48 @@ Tailwind CSS v4 introduced a design-system-aware class syntax. When you write ar
 
 ## Quick Start
 
+### CLI
+
+Check files without modifying them (great for CI):
+
+```bash
+npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --check
+```
+
+Fix files in place:
+
+```bash
+npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}"
+```
+
+If your Tailwind v4 entry stylesheet is not discoverable automatically, pass it explicitly:
+
+```bash
+npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --css ./app/globals.css
+```
+
+#### CLI Options
+
+```text
+tailwind-suggest-canonical-classes <files/globs> [options]
+
+Options:
+  --root <dir>             Project root directory (default: cwd)
+  --css <file>             Tailwind v4 entry CSS (default: @import "tailwindcss")
+  --root-font-size <num>   Root font size in px (default: 16)
+  --check                  Dry run (no writes)
+  --dry-run                Alias for --check
+  --verbose                Print per-file results
+  --help                   Show help
+```
+
+#### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success — command completed successfully (including `--help` when a target is present) |
+| `1` | Failure — missing targets, no matching files, missing Tailwind v4 design system, or other errors |
+
 ### Prettier Plugin (Recommended)
 
 The easiest way to adopt canonical classes — they're applied automatically every time you format.
@@ -75,22 +117,6 @@ npx prettier --check "src/**/*.{astro,css,html,js,jsx,md,mdx,ts,tsx,vue,svelte}"
 npx prettier --write "src/**/*.{astro,css,html,js,jsx,md,mdx,ts,tsx,vue,svelte}"
 ```
 
-To apply canonicalization without Prettier, run the CLI powered by `@laststance/tailwindcss-canonical-classes-core` directly:
-
-```bash
-# Check files without modifying them
-npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --check
-
-# Fix files in place
-npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}"
-```
-
-If your Tailwind v4 entry stylesheet is not discoverable automatically, pass it explicitly:
-
-```bash
-npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,html}" --css ./app/globals.css
-```
-
 #### Options
 
 | Option | Type | Default | Description |
@@ -105,42 +131,6 @@ npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,
   "tailwindcssCanonicalRootFontSize": 16
 }
 ```
-
-### CLI
-
-Check files without modifying them (great for CI):
-
-```bash
-npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --check
-```
-
-Fix files in place:
-
-```bash
-npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}"
-```
-
-#### CLI Options
-
-```
-tailwind-suggest-canonical-classes <files/globs> [options]
-
-Options:
-  --root <dir>             Project root directory (default: cwd)
-  --css <file>             Tailwind v4 entry CSS (default: @import "tailwindcss")
-  --root-font-size <num>   Root font size in px (default: 16)
-  --check                  Dry run (no writes)
-  --dry-run                Alias for --check
-  --verbose                Print per-file results
-  --help                   Show help
-```
-
-#### Exit Codes
-
-| Code | Meaning |
-|------|---------|
-| `0` | Success — all files processed without errors |
-| `1` | Failure — processing errors occurred |
 
 ### Core Library
 

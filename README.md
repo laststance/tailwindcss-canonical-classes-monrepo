@@ -45,7 +45,7 @@ npx @laststance/tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}" --c
 
 #### CLI Options
 
-```
+```text
 tailwind-suggest-canonical-classes <files/globs> [options]
 
 Options:
@@ -62,8 +62,8 @@ Options:
 
 | Code | Meaning |
 |------|---------|
-| `0` | Success — all files processed without errors |
-| `1` | Failure — processing errors occurred |
+| `0` | Success — command completed successfully (including `--help` when a target is present) |
+| `1` | Failure — missing targets, no matching files, missing Tailwind v4 design system, or other errors |
 
 ### Prettier Plugin (Recommended)
 

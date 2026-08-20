@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/resolve-cli-exit-code.test.js"
   },
   "keywords": [
     "tailwindcss",

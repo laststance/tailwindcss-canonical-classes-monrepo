@@ -8,10 +8,10 @@ import {
   canonicalizeDocument,
   isSupportedExtension,
 } from '@laststance/tailwindcss-canonical-classes-core'
+import { EXIT_FAILURE, EXIT_SUCCESS } from './constants.js'
+import { resolveCliExitCode } from './utils/resolve-cli-exit-code.js'
 
 const CLI_NAME = 'tailwind-suggest-canonical-classes'
-const EXIT_SUCCESS = 0
-const EXIT_FAILURE = 1
 
 type WriteMode = 'write' | 'check'
 
@@ -85,9 +85,13 @@ async function main(): Promise<void> {
     `Done. changed=${changed} unchanged=${unchanged} skipped=${skipped} errors=${errors}`,
   )
 
-  if (errors > 0) {
-    process.exit(EXIT_FAILURE)
-  }
+  process.exit(
+    resolveCliExitCode({
+      writeMode: args.writeMode,
+      changed,
+      errors,
+    }),
+  )
 }
 
 /**
@@ -154,7 +158,7 @@ function buildUsage(): string {
     '  --root <dir>             Project root directory (default: cwd)',
     '  --css <file>             Tailwind v4 entry CSS (default: @import "tailwindcss")',
     '  --root-font-size <num>   Root font size in px (default: 16)',
-    '  --check                  Dry run (no writes)',
+    '  --check                  Dry run; exit 1 if non-canonical classes are found',
     '  --dry-run                Alias for --check',
     '  --verbose                Print per-file results',
     '  --help                   Show this help',

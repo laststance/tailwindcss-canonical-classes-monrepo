@@ -52,7 +52,7 @@ Options:
   --root <dir>             Project root directory (default: cwd)
   --css <file>             Tailwind v4 entry CSS (default: @import "tailwindcss")
   --root-font-size <num>   Root font size in px (default: 16)
-  --check                  Dry run (no writes)
+  --check                  Dry run; exit 1 if non-canonical classes are found
   --dry-run                Alias for --check
   --verbose                Print per-file results
   --help                   Show help
@@ -63,7 +63,7 @@ Options:
 | Code | Meaning |
 |------|---------|
 | `0` | Success — command completed successfully (including `--help` when a target is present) |
-| `1` | Failure — missing targets, no matching files, missing Tailwind v4 design system, or other errors |
+| `1` | Failure — missing targets, no matching files, missing Tailwind v4, file errors, or `--check` found non-canonical classes |
 
 ### Prettier Plugin (Recommended)
 

@@ -41,3 +41,18 @@ jobs:
           pnpm --filter @laststance/tailwindcss-canonical-classes-core build
           pnpm --filter @laststance/tailwind-suggest-canonical-classes build
           pnpm --filter prettier-plugin-tailwindcss-canonical-classes build
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare environment
+        uses: ./.github/actions/prepare
+
+      - name: Build CLI and run tests
+        run: |
+          pnpm --filter @laststance/tailwindcss-canonical-classes-core build
+          pnpm --filter @laststance/tailwind-suggest-canonical-classes build
+          pnpm --filter @laststance/tailwind-suggest-canonical-classes test

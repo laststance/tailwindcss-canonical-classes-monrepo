@@ -22,7 +22,7 @@ npm install -D @laststance/tailwind-suggest-canonical-classes tailwindcss
 # Fix files in place
 tailwind-suggest-canonical-classes "src/**/*.{tsx,jsx,html}"
 
-# Dry run (no writes)
+# Dry run (no writes); exits 1 if non-canonical classes are found
 tailwind-suggest-canonical-classes "src/**/*.tsx" --check
 
 # Verbose output
@@ -36,7 +36,7 @@ tailwind-suggest-canonical-classes "src/**/*.tsx" --verbose
 | `--root <dir>` | | `cwd` | Project root directory |
 | `--css <file>` | | `@import "tailwindcss"` | Tailwind v4 entry CSS file path |
 | `--root-font-size <num>` | | `16` | Root font size in px for rem-based canonicalization |
-| `--check` | | | Dry run mode (no file writes) |
+| `--check` | | | Dry run; exit 1 if non-canonical classes are found |
 | `--dry-run` | | | Alias for `--check` |
 | `--verbose` | `-v` | | Print per-file results |
 | `--help` | `-h` | | Show help |

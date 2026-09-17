@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.js"
   },
   "keywords": [
     "prettier",
@@ -41,12 +42,13 @@
     "@laststance/tailwindcss-canonical-classes-core": "workspace:*"
   },
   "peerDependencies": {
-    "prettier": "^3.0.0",
+    "prettier": "^3.7.0",
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.7.0",
+    "prettier-plugin-tailwindcss": "0.8.1",
     "typescript": "^5.8.3"
   }
 }

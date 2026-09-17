@@ -110,6 +110,32 @@ test('uses parsers exported through a module default object', async () => {
   assert.equal(output, '<!-- wrapped -->\n<div class="p-4"></div>\n')
 })
 
+for (const lazy of [false, true]) {
+  test(`skips ${lazy ? 'lazy' : 'ordinary'} delegates with an incompatible AST format`, async () => {
+    // Arrange
+    const incompatible = {
+      ...htmlParsers.html,
+      astFormat: 'incompatible-html',
+      preprocess() {
+        throw new Error('Incompatible preprocessing must not run')
+      },
+      parse() {
+        throw new Error('Incompatible AST must not reach the HTML printer')
+      },
+    }
+    const entry = lazy ? async () => incompatible : incompatible
+
+    // Act
+    const output = await format('<div class="p-[16px]"></div>', {
+      parser: 'html',
+      plugins: [{ parsers: { html: entry } }, canonicalPlugin],
+    })
+
+    // Assert
+    assert.equal(output, '<div class="p-4"></div>\n')
+  })
+}
+
 for (const stage of ['factory', 'preprocess', 'parse']) {
   test(`reports a delegate ${stage} failure and allows a later format to recover`, async () => {
     // Arrange

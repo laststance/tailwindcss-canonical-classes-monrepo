@@ -127,7 +127,14 @@ async function findOtherPluginParser(
     // Exclude both our map and copied references to our wrapper to prevent recursion.
     if (candidate.parsers === parsers || entry === parsers[parserName]) continue
     const parser = typeof entry === 'function' ? await entry() : entry
-    if (parser && parser !== parsers[parserName]) return parser
+    // The wrapper's fixed printer must understand the delegated AST.
+    if (
+      parser &&
+      parser !== parsers[parserName] &&
+      parser.astFormat === PARSER_CONFIG[parserName]?.astFormat
+    ) {
+      return parser
+    }
   }
   return null
 }

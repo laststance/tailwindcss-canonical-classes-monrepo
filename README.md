@@ -212,7 +212,7 @@ playground/            # Next.js 16 + shadcn/ui test app
 
 ### Prerequisites
 
-- Node.js >= 18
+- Node.js >= 20.19 (the sorting plugin used by the tests requires it)
 - [pnpm](https://pnpm.io/) 10.x
 
 ### Setup

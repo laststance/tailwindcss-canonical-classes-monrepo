@@ -231,6 +231,15 @@ pnpm typecheck      # Type check all packages
 pnpm clean          # Remove dist/ from all packages
 ```
 
+### Package Tests
+
+Build core first so dependent packages can resolve its declarations. The Prettier plugin test command rebuilds the plugin before running its tests.
+
+```bash
+pnpm --filter @laststance/tailwindcss-canonical-classes-core build
+pnpm --filter prettier-plugin-tailwindcss-canonical-classes test
+```
+
 ### Testing with the Playground
 
 The playground is a Next.js 16 + shadcn/ui app for manual testing:

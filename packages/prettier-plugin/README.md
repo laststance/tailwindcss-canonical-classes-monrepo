@@ -33,16 +33,20 @@ Install both Prettier plugins:
 npm install -D prettier prettier-plugin-tailwindcss prettier-plugin-tailwindcss-canonical-classes tailwindcss
 ```
 
-List `prettier-plugin-tailwindcss-canonical-classes` **last** so it can chain with the sorting plugin's preprocess:
+List `prettier-plugin-tailwindcss-canonical-classes` **last** so it can canonicalize classes before delegating to the sorting plugin's preprocessing and AST parsing:
 
 ```json
 {
   "plugins": [
     "prettier-plugin-tailwindcss",
     "prettier-plugin-tailwindcss-canonical-classes"
-  ]
+  ],
+  "tailwindStylesheet": "./app/globals.css",
+  "tailwindcssCanonicalStylesheet": "./app/globals.css"
 }
 ```
+
+Both stylesheet options should point to the same Tailwind v4 entry file. Sorting options such as `tailwindFunctions` are forwarded to `prettier-plugin-tailwindcss`. A single format pass applies both transformations.
 
 Run Prettier from the command line:
 
@@ -93,7 +97,9 @@ npx -y @laststance/tailwind-suggest-canonical-classes@latest "src/**/*.{tsx,jsx,
 
 ## Requirements
 
-- Prettier 3.x
+When combining with `prettier-plugin-tailwindcss`, also satisfy its runtime requirements; version 0.8.1 requires Node.js >= 20.19.
+
+- Prettier >= 3.7.0 and < 4 (async parser preprocessing requires 3.7.0)
 - Tailwind CSS v4
 - Node.js >= 18
 

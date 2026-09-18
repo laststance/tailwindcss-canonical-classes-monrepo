@@ -24,6 +24,7 @@ import { resolveCanonicalProjectContext } from './project-context.js'
  *     "prettier-plugin-tailwindcss",
  *     "prettier-plugin-tailwindcss-canonical-classes"
  *   ],
+ *   "tailwindStylesheet": "./app/globals.css",
  *   "tailwindcssCanonicalStylesheet": "./app/globals.css"
  * }
  * ```
@@ -74,8 +75,8 @@ const PARSER_CONFIG: Record<string, { module: string; parser: string; astFormat:
 const builtinParserCache = new Map<string, Parser>()
 
 /**
- * Load a built-in parser from Prettier's bundled plugins.
- * Used as fallback when no other plugin provides a parser.
+ * Supplies Prettier's fallback when {@link getDelegateParser} finds no earlier parser.
+ * @example await loadBuiltinParser('html') // => Prettier HTML parser
  */
 async function loadBuiltinParser(parserName: string): Promise<Parser | null> {
   if (builtinParserCache.has(parserName)) {
@@ -101,28 +102,82 @@ async function loadBuiltinParser(parserName: string): Promise<Parser | null> {
   return null
 }
 
+// Prettier supports lazy parser factories at runtime, but its public types omit them.
+type ParserEntry = Parser | (() => Parser | Promise<Parser>)
+type RuntimePlugin = Omit<Plugin, 'parsers'> & {
+  parsers?: Record<string, ParserEntry>
+  default?: RuntimePlugin
+}
+
 /**
- * Find another plugin's parser for the given parser name.
- * Skips our own parsers to avoid infinite recursion.
- * Handles both direct plugin objects and module-wrapped plugins.
+ * Selects the last other parser for {@link getDelegateParser}, matching Prettier's precedence.
+ * @example await findOtherPluginParser('html', [sorter, canonical]) // => sorter HTML parser
  */
-function findOtherPluginParser(
+async function findOtherPluginParser(
   parserName: string,
-  plugins: any[],
-): Parser | null {
-  for (const plugin of plugins) {
-    // Handle module default exports
-    const p = plugin.default ?? plugin
-    // Skip our own plugin
-    if (p.parsers === parsers) continue
-    const parser = p.parsers?.[parserName]
-    if (parser && typeof parser.parse === 'function') return parser
+  plugins: ParserOptions['plugins'],
+): Promise<Parser | null> {
+  // Prettier prepends built-ins; searching backward gives user plugins precedence.
+  for (const plugin of [...plugins].reverse()) {
+    if (typeof plugin === 'string' || plugin instanceof URL) continue
+    const runtimePlugin: RuntimePlugin = plugin
+    const candidate = runtimePlugin.default ?? runtimePlugin
+    const entry = candidate.parsers?.[parserName]
+
+    // Exclude both our map and copied references to our wrapper to prevent recursion.
+    if (candidate.parsers === parsers || entry === parsers[parserName]) continue
+    const parser = typeof entry === 'function' ? await entry() : entry
+    // The wrapper's fixed printer must understand the delegated AST.
+    if (
+      parser &&
+      parser !== parsers[parserName] &&
+      parser.astFormat === PARSER_CONFIG[parserName]?.astFormat
+    ) {
+      return parser
+    }
   }
   return null
 }
 
+// Formatting options isolate delegates across concurrent files and plugin configurations.
+const delegateParserCache = new WeakMap<
+  ParserOptions,
+  Map<string, Promise<Parser>>
+>()
+
 /**
- * Create the canonicalization preprocess function.
+ * Shares one initialized delegate between each wrapper's preprocess and parse calls.
+ * @example await getDelegateParser('html', options) // => same parser within this format call
+ */
+function getDelegateParser(
+  parserName: string,
+  parserOptions: ParserOptions,
+): Promise<Parser> {
+  let delegates = delegateParserCache.get(parserOptions)
+  if (!delegates) {
+    delegates = new Map()
+    delegateParserCache.set(parserOptions, delegates)
+  }
+  const cached = delegates.get(parserName)
+  if (cached) return cached
+
+  // Cache the promise too, so asynchronous factories cannot initialize twice per call.
+  const pending = findOtherPluginParser(parserName, parserOptions.plugins).then(
+    async (other) => {
+      const delegate = other ?? (await loadBuiltinParser(parserName))
+      if (delegate) return delegate
+      throw new Error(
+        `[canonical] Base parser "${parserName}" not available. Make sure Prettier is properly installed.`,
+      )
+    },
+  )
+  delegates.set(parserName, pending)
+  return pending
+}
+
+/**
+ * Canonicalizes source before the registered wrapper invokes its delegate.
+ * @example await createCanonicalPreprocess('html')('<div class="p-[16px]"></div>', options) // => p-4
  */
 function createCanonicalPreprocess(parserName: string) {
   return async function canonicalPreprocess(
@@ -157,7 +212,7 @@ function createCanonicalPreprocess(parserName: string) {
 }
 
 // Build parsers that chain with other plugins
-const parsers: Plugin['parsers'] = {}
+const parsers: NonNullable<Plugin['parsers']> = {}
 
 for (const parserName of Object.keys(PARSER_CONFIG)) {
   const config = PARSER_CONFIG[parserName]
@@ -165,18 +220,8 @@ for (const parserName of Object.keys(PARSER_CONFIG)) {
 
   parsers[parserName] = {
     parse: async (text: string, opts: ParserOptions) => {
-      // Always use Prettier's built-in parser for AST generation.
-      // Other plugins (e.g., prettier-plugin-tailwindcss) do their work in preprocess
-      // at the text level — they don't need their parse called directly.
-      const builtinParser = await loadBuiltinParser(parserName)
-      if (builtinParser) {
-        return builtinParser.parse(text, opts)
-      }
-
-      throw new Error(
-        `[canonical] Base parser "${parserName}" not available. ` +
-          `Make sure Prettier is properly installed.`,
-      )
+      const delegate = await getDelegateParser(parserName, opts)
+      return delegate.parse(text, opts)
     },
 
     astFormat: config.astFormat,
@@ -200,17 +245,16 @@ for (const parserName of Object.keys(PARSER_CONFIG)) {
     },
 
     preprocess: async (text: string, opts: ParserOptions & PluginOptions) => {
-      // 1. Run our canonicalization FIRST
-      let processed = await ourPreprocess(text, opts)
+      const delegate = await getDelegateParser(parserName, opts)
+      // Prettier copies locations before preprocessing; update only this call's options.
+      opts.locStart = delegate.locStart.bind(delegate)
+      opts.locEnd = delegate.locEnd.bind(delegate)
+      const canonicalText = await ourPreprocess(text, opts)
 
-      // 2. Chain with other plugins' preprocess (e.g., sorting from prettier-plugin-tailwindcss)
-      const otherParser = findOtherPluginParser(parserName, (opts as any).plugins ?? [])
-      if (otherParser?.preprocess) {
-        const result = otherParser.preprocess(processed, opts)
-        processed = result instanceof Promise ? await result : result
-      }
-
-      return processed
+      // Sorters can transform the AST in parse, after their optional preprocessing.
+      return delegate.preprocess
+        ? await delegate.preprocess(canonicalText, opts)
+        : canonicalText
     },
   }
 }

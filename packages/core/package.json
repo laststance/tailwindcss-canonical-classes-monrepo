@@ -39,13 +39,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@tailwindcss/language-service": "0.14.29",
-    "jiti": "^2.6.0",
-    "vscode-languageserver-textdocument": "1.0.12"
+    "@tailwindcss/language-service": "0.16.0",
+    "jiti": "^2.7.0",
+    "vscode-languageserver-textdocument": "1.0.16"
   },
   "devDependencies": {
-    "@types/node": "^20.17.0",
-    "typescript": "^5.8.3"
+    "@types/node": "^26.6.6",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2"
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0"
